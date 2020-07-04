@@ -1,6 +1,12 @@
-
 import axios from '../../axios/axios-quiz'
-import {FETCH_QUIZES_START, FETCH_QUIZES_SUCCESS, FETCH_QUIZES_ERROR, FETCH_QUIZ_SUCCESS, QUIZ_SET_STATE, FINISH_QUIZ, QUIZ_NEXT_QUESTION, QUIZ_RETRY} from './actionTypes'
+import {
+  FETCH_QUIZ_SUCCESS,
+  FETCH_QUIZES_ERROR,
+  FETCH_QUIZES_START,
+  FETCH_QUIZES_SUCCESS, FINISH_QUIZ, QUIZ_NEXT_QUESTION, QUIZ_RETRY,
+  QUIZ_SET_STATE
+} from './actionTypes'
+
 export function fetchQuizes() {
   return async dispatch => {
     dispatch(fetchQuizesStart())
@@ -38,6 +44,33 @@ export function fetchQuizById(quizId) {
   }
 }
 
+export function fetchQuizSuccess(quiz) {
+  return {
+    type: FETCH_QUIZ_SUCCESS,
+    quiz
+  }
+}
+
+export function fetchQuizesStart() {
+  return {
+    type: FETCH_QUIZES_START
+  }
+}
+
+export function fetchQuizesSuccess(quizes) {
+  return {
+    type: FETCH_QUIZES_SUCCESS,
+    quizes
+  }
+}
+
+export function fetchQuizesError(e) {
+  return {
+    type: FETCH_QUIZES_ERROR,
+    error: e
+  }
+}
+
 export function quizSetState(answerState, results) {
   return {
     type: QUIZ_SET_STATE,
@@ -58,9 +91,16 @@ export function quizNextQuestion(number) {
   }
 }
 
+export function retryQuiz() {
+  return {
+    type: QUIZ_RETRY
+  }
+}
+
 export function quizAnswerClick(answerId) {
   return (dispatch, getState) => {
     const state = getState().quiz
+
     if (state.answerState) {
       const key = Object.keys(state.answerState)[0]
       if (state.answerState[key] === 'success') {
@@ -89,43 +129,10 @@ export function quizAnswerClick(answerId) {
     } else {
       results[question.id] = 'error'
       dispatch(quizSetState({[answerId]: 'error'}, results))
-    } 
+    }
   }
 }
 
 function isQuizFinished(state) {
   return state.activeQuestion + 1 === state.quiz.length
-}
-
-export function fetchQuizSuccess(quiz) {
-  return {
-    type: FETCH_QUIZ_SUCCESS,
-    quiz
-  }
-}
-
-export function fetchQuizesStart() {
-  return {
-    type: FETCH_QUIZES_START
-  }
-}
-
-export function fetchQuizesSuccess(quizes) {
-  return {
-    type: FETCH_QUIZES_SUCCESS,
-    quizes: quizes
-  }
-}
-
-export function fetchQuizesError(e) {
-  return {
-    type: FETCH_QUIZES_ERROR,
-    error: e
-  }
-}
-
-export function retryQuiz() {
-  return {
-    type: QUIZ_RETRY,
-  }
 }

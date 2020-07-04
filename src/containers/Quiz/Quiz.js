@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { fetchQuizById, quizAnswerClick, retryQuiz } from '../../store/actions/quiz'
 
 class Quiz extends Component {
+
   componentDidMount() {
     this.props.fetchQuizById(this.props.match.params.id)
   }
@@ -23,8 +24,8 @@ class Quiz extends Component {
 
           {
             this.props.loading || !this.props.quiz
-            ? <Loader />
-            : this.props.isFinished
+             ? <Loader />
+             : this.props.isFinished
               ? <FinishedQuiz
                 results={this.props.results}
                 quiz={this.props.quiz}
@@ -45,6 +46,7 @@ class Quiz extends Component {
     )
   }
 }
+
 function mapStateToProps(state) {
   return {
     results: state.quiz.results,
@@ -52,11 +54,9 @@ function mapStateToProps(state) {
     activeQuestion: state.quiz.activeQuestion,
     answerState: state.quiz.answerState,
     quiz: state.quiz.quiz,
-    loading: state.quiz.loading,
+    loading: state.quiz.loading
   }
-
 }
-
 
 function mapDispatchToProps(dispatch) {
   return {

@@ -1,4 +1,10 @@
-import { FETCH_QUIZES_SUCCESS, FETCH_QUIZES_ERROR, FETCH_QUIZES_START, FETCH_QUIZ_SUCCESS, QUIZ_SET_STATE, FINISH_QUIZ, QUIZ_NEXT_QUESTION, QUIZ_RETRY } from "../actions/actionTypes"
+import {
+  FETCH_QUIZ_SUCCESS,
+  FETCH_QUIZES_ERROR,
+  FETCH_QUIZES_START,
+  FETCH_QUIZES_SUCCESS, FINISH_QUIZ, QUIZ_NEXT_QUESTION, QUIZ_RETRY,
+  QUIZ_SET_STATE
+} from '../actions/actionTypes';
 
 const initialState = {
   quizes: [],
@@ -8,7 +14,7 @@ const initialState = {
   isFinished: false,
   activeQuestion: 0,
   answerState: null,
-  quiz: null,
+  quiz: null
 }
 
 export default function quizReducer(state = initialState, action) {
@@ -27,28 +33,29 @@ export default function quizReducer(state = initialState, action) {
       }
     case FETCH_QUIZ_SUCCESS:
       return {
-      ...state, loading: false, quiz: action.quiz
-    }
+        ...state, loading: false, quiz: action.quiz
+      }
     case QUIZ_SET_STATE:
       return {
-      ...state, answerState: action.answerState, results: action.results
-    }
+        ...state, answerState: action.answerState, results: action.results
+      }
     case FINISH_QUIZ:
       return {
-      ...state, isFinished: true
-    }
+        ...state, isFinished: true
+      }
     case QUIZ_NEXT_QUESTION:
       return {
-      ...state, answerState: null, activeQuestion: action.number
-    }
+        ...state, answerState: null, activeQuestion: action.number
+      }
     case QUIZ_RETRY:
       return {
-      ...state, 
-      activeQuestion: 0,
-      answerState: null,
-      isFinished: false,
-      results: {}
-    }
-    default: return state
+        ...state,
+        activeQuestion: 0,
+        answerState: null,
+        isFinished: false,
+        results: {}
+      }
+    default:
+      return state
   }
 }
